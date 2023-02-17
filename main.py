@@ -16,9 +16,7 @@ import getpass
 # import io
 
 # print("\n   ***Device Credentials Needed***\n")  # Commented out credentials, admin user needs to be elevated to 15
-# user = 'ciscobackup'  # Hard Code for quick Testing
 user = input("Enter Username: ")
-# secret = '0Trlw/f9CB'  # Hard Code for quick Testing
 from getpass import getpass
 secret = getpass( 'Enter Password: ' )
 port = 22
