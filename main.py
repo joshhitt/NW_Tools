@@ -72,7 +72,7 @@ while True:
                    "    2. Check Versions\n"  # Check Versions
                    "    3. Find Variable\n"  # Find matching string
                    "    4. Find MAC Address\n"  # Parse CAM Tables for MAC
-                   "    5. Inventory Search\n"  # Parse Parse Inventory for Serial Match
+                   "    5. Inventory Search\n"  # Parse Inventory for Serial Match
                    "    6. ARP Search *Sets Device List to Core Devices*\n"  # Parse ARP Cache for Match
                    "    B. Back to Device List Selection\n\n"
                    "    >>>  ")
@@ -91,12 +91,9 @@ while True:
                         response = ssh_stdout.readlines()
                         err_response = ssh_stderr.readlines()
                         find_string = "uptime"
-                        # look for String
-                        # print("Uptime of host: " + ipaddr)
                         for line in response:
                             if find_string in line:
                                 print(f" Trying: {ipaddr:<20} {line:>80}")
-                        # time.sleep(1)
                         ssh.close()
                         ssh_stdin.close()
                     except paramiko.AuthenticationException:
@@ -127,13 +124,11 @@ while True:
                         response = ssh_stdout.readlines()
                         err_response = ssh_stderr.readlines()
                         find_string = 'ersion'
-                        # look for String
                         for line in response:
                             if find_string in line:
                                 print(f"  {line}")
                         time.sleep(1)
                         ssh.close()
-                        # f.close()
                         ssh_stdin.close()
                     except paramiko.AuthenticationException:
                         print(f" Authentication Failed: {ipaddr}\n")
@@ -162,16 +157,10 @@ while True:
                         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('show run')
                         response = ssh_stdout.readlines()
                         err_response = ssh_stderr.readlines()
-                        # Test and debug lines
-                        # print(f"\nResponse type {type(response)}\n")
-                        # print(*response, sep = "")
-                        # print(err_response)
-                        # Slurp in Response from devices and loop for match
                         for index, line in enumerate(response):
                             if find_string in line:
                                 print("".join(response[max(0, index - 1):index + 2]))
                                 # print(f"".join(response[max(0, index - 1):index + 2]))
-                        # time.sleep(1)
                         ssh.close()
                         ssh_stdin.close()
                     except paramiko.AuthenticationException:
@@ -199,15 +188,12 @@ while True:
                         ssh.connect(hostname=ipaddr, username=user, password=secret, port=port)
                         print("_" * 100)
                         print(f"\n Checking: {ipaddr} for \'{find_string}\'\n")
-                        # print("\n Checking: ", ipaddr, " For MAC Ending with: ", find_string, "\n")
                         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('show mac address-table')
                         response = ssh_stdout.readlines()
                         err_response = ssh_stderr.readlines()
-                        # Slurp in Response from devices and loop for match
                         for line in response:
                             if find_string in line:
                                 print(f" {line}\n")
-                        # time.sleep(1)
                         ssh.close()
                         ssh_stdin.close()
                     except paramiko.AuthenticationException:
@@ -237,12 +223,9 @@ while True:
                         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('show inventory')
                         response = ssh_stdout.readlines()
                         err_response = ssh_stderr.readlines()
-                        # Slurp in Response from devices and loop for match
                         for index, line in enumerate(response):
                             if find_string in line:
                                 print("".join(response[max(0, index - 1):index + 1]))
-                                # print(f"".join(response[max(0, index - 1):index + 2]))
-                        # time.sleep(1)
                         ssh.close()
                         ssh_stdin.close()
                     except paramiko.AuthenticationException:
@@ -279,7 +262,6 @@ while True:
                         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('show ip arp')
                         response = ssh_stdout.readlines()
                         err_response = ssh_stderr.readlines()
-                        # Slurp in Response from devices and loop for match 
                         for line in response:
                             if find_string in line:
                                 print(f"    {line}")
@@ -298,7 +280,7 @@ while True:
                         pass
             finally:
                 print("\n\n    Script completed", time_now, "\n\n")
-                break # Break back to Devices Selection due to hard set devicelist
+                break  # Break back to Devices Selection due to hard set devicelist
         elif command == 'b':
             break  # Back to Devices Selection
         else:
